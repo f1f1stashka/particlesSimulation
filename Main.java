@@ -137,7 +137,7 @@ public class Main {
         while(true){
             //Thread.sleep(100);
             renderMap(frame);
-            gravity();
+            handleParticlesForces();
         }
     }
 }
