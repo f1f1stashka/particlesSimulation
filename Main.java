@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import static java.lang.Math.abs;
+import static java.lang.Math.pow;
 
 public class Main {
     public static int _size = 800;
@@ -48,10 +49,7 @@ public class Main {
         }
     }
     public static boolean isInRadius(Particle p1, Particle p2, int radius){
-        if(((p1.x-p2.x)*(p1.x-p2.x))+((p1.y-p2.y)*(p1.y-p2.y)) <= radius*radius){
-            return true;
-        }
-        return false;
+        return pow((p1.x-p2.x), 2) + pow((p1.y-p2.y), 2) <= radius*radius;
     }
 
     public static void moveParticlesDependsOnCharge(
