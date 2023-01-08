@@ -9,7 +9,7 @@ public class Main {
     public static int _size = 800;
     static Particle[] particles = new Particle[30];
 
-    public static void gravity(){
+    public static void handleParticlesForces(){
         for (int i1 = 0; i1 < particles.length; i1++){
             for(int i2 = 0; i2 < particles.length; i2++){
                 if(i1 == i2){
