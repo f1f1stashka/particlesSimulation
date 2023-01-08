@@ -25,6 +25,7 @@ public class Main {
         int vx;
         int vy;
         if(isInRadius(p1, p2, 10)){
+            // TODO: вынести в метод выбор vx и vy
             if(p2.x < p1.x){
                 vx = 1;
             }else if (p2.x > p1.x){
@@ -32,6 +33,7 @@ public class Main {
             }else{
                 vx = 0;
             }
+
             if(p2.y < p1.y){
                 vy = 1;
             }else if (p2.y > p1.y){
