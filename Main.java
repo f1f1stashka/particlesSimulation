@@ -1,11 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 
 public class Main {
