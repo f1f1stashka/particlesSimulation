@@ -130,13 +130,13 @@ public class Main {
     public static int getRandCharge(){
         Random random = new Random();
         if(random.nextBoolean()){
-            return 2;
+            return 1;
         }
-        return -2;
+        return -1;
     }
 
     public static int getAngleFromTwoDots(int x1, int y1, int x2, int y2) {
-        return (int) atan((y2-y1)/(x2-x1));
+        return (int) atan2(y2-y1, x2-x1);
     }
 
 
@@ -178,21 +178,9 @@ class Particle{
         System.out.println(charge);
     }
 
-    void goTo(int vX, int vY){
-        x -= vX;
-        y -= vY;
-        if(x > Main._size){
-            x = Main._size;
-        }
-        if(x < 5){
-            x = 5;
-        }
-        if(y > Main._size){
-            y = Main._size;
-        }
-        if(y < 5){
-            y = 5;
-        }
+    void goTo(){
+        x += cos(toRadians(this.vector.angle))*5;
+        y += sin(toRadians(this.vector.angle))*5;
     }
 }
 
