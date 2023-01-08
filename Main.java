@@ -34,13 +34,7 @@ public class Main {
                     }
 
                     moveParticlesDependsOnCharge(particles[i1], particles[i2], vx, vy);
-                        
-                    if(particles[i1].x == particles[i2].x){
-                        particles[i2].goTo(getRandCharge(), getRandCharge());
-                    }
-                    if(particles[i1].y == particles[i2].y){
-                        particles[i2].goTo(getRandCharge(), getRandCharge());
-                    }
+                    repulseParticlesIfCollisioning(particles[i1], particles[i2]);
                 }
             }
         }
@@ -72,6 +66,15 @@ public class Main {
         }else if(p1.charge == -1 && p2.charge == -1){
             p1.goTo(-vx, -vy);
             p2.goTo(-vx, -vy);
+        }
+    }
+
+    public static void repulseParticlesIfCollisioning(Particle p1, Particle p2) {
+        if(p1.x == p2.x){
+            p2.goTo(getRandCharge(), getRandCharge());
+        }
+        if(p1.y == p2.y){
+            p2.goTo(getRandCharge(), getRandCharge());
         }
     }
 
