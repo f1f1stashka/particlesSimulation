@@ -12,8 +12,8 @@ public class Main {
     static Particle[] particles = new Particle[30];
 
     public static void gravity(){
-        int vx = 0;
-        int vy = 0;
+        int vx;
+        int vy;
         for (int i1 = 0; i1 < particles.length; i1++){
             for(int i2 = 0; i2 < particles.length; i2++){
                 if(i1 == i2){
@@ -138,8 +138,8 @@ public class Main {
 }
 
 class Particle{
-    int x = 0;
-    int y = 0;
+    int x;
+    int y;
 
     int charge = -1;
 
