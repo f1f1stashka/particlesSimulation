@@ -34,26 +34,9 @@ public class Main {
                     }else{
                         vy = 0;
                     }
-                    if(particles[i1].charge == 0 && particles[i2].charge == 0){
-                        particles[i1].goTo(vx, vy);
-                        particles[i2].goTo(vx, vy);
-                    }else if(particles[i1].charge == 0 && particles[i2].charge == 1){
-                        particles[i1].goTo(vx, vy);
-                        particles[i2].goTo(vx, vy);
-                    }else if(particles[i1].charge == 0 && particles[i2].charge == -1){
-                        particles[i2].goTo(-vx, -vy);
-                    }else if(particles[i1].charge == 1 && particles[i2].charge == 1){
-                        particles[i1].goTo(-vx, -vy);
-                        particles[i2].goTo(-vx, -vy);
-                    }else if(particles[i1].charge == 1 && particles[i2].charge == -1){
-                        particles[i1].goTo(vx, vy);
-                        particles[i2].goTo(vx, vy);
-                    }else if(particles[i1].charge == -1 && particles[i2].charge == -1){
-                        particles[i1].goTo(-vx, -vy);
-                        particles[i2].goTo(-vx, -vy);
-                    }
 
-
+                    moveParticlesDependsOnCharge(particles[i1], particles[i2], vx, vy);
+                        
                     if(particles[i1].x == particles[i2].x){
                         particles[i2].goTo(getRandCharge(), getRandCharge());
                     }
@@ -69,6 +52,32 @@ public class Main {
             return true;
         }
         return false;
+    }
+
+    public static void moveParticlesDependsOnCharge(
+        Particle p1, 
+        Particle p2, 
+        int vx, 
+        int vy
+    ){
+        if(p1.charge == 0 && p2.charge == 0){
+            p1.goTo(vx, vy);
+            p2.goTo(vx, vy);
+        }else if(p1.charge == 0 && p2.charge == 1){
+            p1.goTo(vx, vy);
+            p2.goTo(vx, vy);
+        }else if(p1.charge == 0 && p2.charge == -1){
+            p2.goTo(-vx, -vy);
+        }else if(p1.charge == 1 && p2.charge == 1){
+            p1.goTo(-vx, -vy);
+            p2.goTo(-vx, -vy);
+        }else if(p1.charge == 1 && p2.charge == -1){
+            p1.goTo(vx, vy);
+            p2.goTo(vx, vy);
+        }else if(p1.charge == -1 && p2.charge == -1){
+            p1.goTo(-vx, -vy);
+            p2.goTo(-vx, -vy);
+        }
     }
 
     public static void renderMap(JFrame canvas){
