@@ -5,6 +5,10 @@ import java.util.Random;
 
 import static java.lang.Math.atan;
 import static java.lang.Math.pow;
+import static java.lang.Math.sin;
+import static java.lang.Math.cos;
+import static java.lang.Math.abs;
+import static java.lang.Math.asin;
 
 public class Main {
     public static int _size = 800;
@@ -199,5 +203,20 @@ class Vector{
     Vector(int angle, int value){
         this.angle = angle;
         this.value = value;
+    }
+
+    // TODO: \/
+    // public static Vector calculateAvgVectorFromArray(Vector[] vectors) {}
+
+    public static Vector calculateAvgVector(Vector vec1, Vector vec2) {
+        float angleDif = abs(vec1.angle - vec2.angle);
+        int resultVectorValue = (int) (
+                pow(vec1.value, 2) + pow(vec2.value, 2) 
+                - 2 * vec1.value * vec2.value * cos(180 - angleDif)
+            ) / 2;
+        int resultVectorAngle = 
+            (int) asin(vec2.value * sin(180 - angleDif) / resultVectorValue);
+
+        return new Vector(resultVectorAngle, resultVectorValue);
     }
 }
