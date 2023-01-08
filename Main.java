@@ -10,35 +10,41 @@ public class Main {
     static Particle[] particles = new Particle[30];
 
     public static void gravity(){
-        int vx;
-        int vy;
         for (int i1 = 0; i1 < particles.length; i1++){
             for(int i2 = 0; i2 < particles.length; i2++){
                 if(i1 == i2){
                     continue;
                 }
-                if(isInRadius(particles[i1], particles[i2], 10)){
-                    if(particles[i2].x < particles[i1].x){
-                        vx = 1;
-                    }else if (particles[i2].x > particles[i1].x){
-                        vx = -1;
-                    }else{
-                        vx = 0;
-                    }
-                    if(particles[i2].y < particles[i1].y){
-                        vy = 1;
-                    }else if (particles[i2].y > particles[i1].y){
-                        vy = -1;
-                    }else{
-                        vy = 0;
-                    }
 
-                    moveParticlesDependsOnCharge(particles[i1], particles[i2], vx, vy);
-                    repulseParticlesIfCollisioning(particles[i1], particles[i2]);
-                }
+                tryToAttractParticlesPair(particles[i1], particles[i2]);
             }
         }
     }
+
+    public static void tryToAttractParticlesPair(Particle p1, Particle p2) {
+        int vx;
+        int vy;
+        if(isInRadius(p1, p2, 10)){
+            if(p2.x < p1.x){
+                vx = 1;
+            }else if (p2.x > p1.x){
+                vx = -1;
+            }else{
+                vx = 0;
+            }
+            if(p2.y < p1.y){
+                vy = 1;
+            }else if (p2.y > p1.y){
+                vy = -1;
+            }else{
+                vy = 0;
+            }
+        
+            moveParticlesDependsOnCharge(p1, p2, vx, vy);
+            repulseParticlesIfCollisioning(p1, p2);
+        }
+    }
+
     public static boolean isInRadius(Particle p1, Particle p2, int radius){
         return pow((p1.x-p2.x), 2) + pow((p1.y-p2.y), 2) <= radius*radius;
     }
@@ -130,7 +136,6 @@ public class Main {
             //Thread.sleep(100);
             renderMap(frame);
             gravity();
-
         }
     }
 }
