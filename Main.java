@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import static java.lang.Math.atan;
 import static java.lang.Math.pow;
 
 public class Main {
@@ -11,13 +12,20 @@ public class Main {
 
     public static void handleParticlesForces(){
         for (int i1 = 0; i1 < particles.length; i1++){
+            Vector[] vectors = new Vector[particles.length];
+            Vector averageVector = new Vector(0, 0);
+            particles[i1].vector.value = 0;
+            particles[i1].vector.angle = 0;
             for(int i2 = 0; i2 < particles.length; i2++){
-                if(i1 == i2){
-                    continue;
-                }
-
-                tryToAttractParticlesPair(particles[i1], particles[i2]);
+                vectors[i2] = particles[i2].vector;
             }
+            for(int j = 0; j < vectors.length; j++){
+                averageVector.value += vectors[j].value;
+                averageVector.angle += vectors[j].angle;
+            }
+            averageVector.value = averageVector.value/vectors.length;
+            averageVector.angle = averageVector.angle/vectors.length;
+            particles[i1].vector = averageVector;
         }
     }
 
@@ -123,6 +131,11 @@ public class Main {
         return -2;
     }
 
+    public static int getAngleFromTwoDots(int x1, int y1, int x2, int y2) {
+        return (int) atan((y2-y1)/(x2-x1));
+    }
+
+
     public static void main(String[] args) throws InterruptedException {
         JFrame frame = new JFrame();
         Canvas canvas = new Canvas();
@@ -131,7 +144,7 @@ public class Main {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         for(int i = 0; i < particles.length; i++){
-            particles[i] = new Particle(400, 400, getRandRange(-1, 2));
+            particles[i] = new Particle(400, 400, getRandRange(-1, 2), 1, new Vector(0, 0));
         }
 
         while(true){
@@ -146,12 +159,18 @@ class Particle{
     int x;
     int y;
 
-    int charge = -1;
+    int charge;
 
-    Particle(int x, int y, int charge){
+    int mass;
+
+    Vector vector;
+
+    Particle(int x, int y, int charge, int mass, Vector vector){
         this.x = x;
         this.y = y;
         this.charge = charge;
+        this.mass = mass;
+        this.vector = vector;
         System.out.println(charge);
     }
 
@@ -170,5 +189,15 @@ class Particle{
         if(y < 5){
             y = 5;
         }
+    }
+}
+
+class Vector{
+    int angle;
+    int value;
+
+    Vector(int angle, int value){
+        this.angle = angle;
+        this.value = value;
     }
 }
