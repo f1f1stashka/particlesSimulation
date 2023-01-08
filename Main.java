@@ -1,74 +1,89 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-import static java.lang.Math.abs;
+import static java.lang.Math.pow;
 
 public class Main {
     public static int _size = 800;
     static Particle[] particles = new Particle[30];
 
-    public static void gravity(){
-        int vx = 0;
-        int vy = 0;
+    public static void handleParticlesForces(){
         for (int i1 = 0; i1 < particles.length; i1++){
             for(int i2 = 0; i2 < particles.length; i2++){
                 if(i1 == i2){
                     continue;
                 }
-                if(isInRadius(particles[i1], particles[i2], 10)){
-                    if(particles[i2].x < particles[i1].x){
-                        vx = 1;
-                    }else if (particles[i2].x > particles[i1].x){
-                        vx = -1;
-                    }else{
-                        vx = 0;
-                    }
-                    if(particles[i2].y < particles[i1].y){
-                        vy = 1;
-                    }else if (particles[i2].y > particles[i1].y){
-                        vy = -1;
-                    }else{
-                        vy = 0;
-                    }
-                    if(particles[i1].charge == 0 && particles[i2].charge == 0){
-                        particles[i1].goTo(vx, vy);
-                        particles[i2].goTo(vx, vy);
-                    }else if(particles[i1].charge == 0 && particles[i2].charge == 1){
-                        particles[i1].goTo(vx, vy);
-                        particles[i2].goTo(vx, vy);
-                    }else if(particles[i1].charge == 0 && particles[i2].charge == -1){
-                        particles[i2].goTo(-vx, -vy);
-                    }else if(particles[i1].charge == 1 && particles[i2].charge == 1){
-                        particles[i1].goTo(-vx, -vy);
-                        particles[i2].goTo(-vx, -vy);
-                    }else if(particles[i1].charge == 1 && particles[i2].charge == -1){
-                        particles[i1].goTo(vx, vy);
-                        particles[i2].goTo(vx, vy);
-                    }else if(particles[i1].charge == -1 && particles[i2].charge == -1){
-                        particles[i1].goTo(-vx, -vy);
-                        particles[i2].goTo(-vx, -vy);
-                    }
 
-
-                    if(particles[i1].x == particles[i2].x){
-                        particles[i2].goTo(getRandCharge(), getRandCharge());
-                    }
-                    if(particles[i1].y == particles[i2].y){
-                        particles[i2].goTo(getRandCharge(), getRandCharge());
-                    }
-                }
+                tryToAttractParticlesPair(particles[i1], particles[i2]);
             }
         }
     }
-    public static boolean isInRadius(Particle p1, Particle p2, int radius){
-        if(((p1.x-p2.x)*(p1.x-p2.x))+((p1.y-p2.y)*(p1.y-p2.y)) <= radius*radius){
-            return true;
+
+    public static void tryToAttractParticlesPair(Particle p1, Particle p2) {
+        int vx;
+        int vy;
+        if(isInRadius(p1, p2, 10)){
+            // TODO: вынести в метод выбор vx и vy
+            if(p2.x < p1.x){
+                vx = 1;
+            }else if (p2.x > p1.x){
+                vx = -1;
+            }else{
+                vx = 0;
+            }
+
+            if(p2.y < p1.y){
+                vy = 1;
+            }else if (p2.y > p1.y){
+                vy = -1;
+            }else{
+                vy = 0;
+            }
+        
+            moveParticlesDependsOnCharge(p1, p2, vx, vy);
+            repulseParticlesIfCollisioning(p1, p2);
         }
-        return false;
+    }
+
+    public static boolean isInRadius(Particle p1, Particle p2, int radius){
+        return pow((p1.x-p2.x), 2) + pow((p1.y-p2.y), 2) <= radius*radius;
+    }
+
+    public static void moveParticlesDependsOnCharge(
+        Particle p1, 
+        Particle p2, 
+        int vx, 
+        int vy
+    ){
+        if(p1.charge == 0 && p2.charge == 0){
+            p1.goTo(vx, vy);
+            p2.goTo(vx, vy);
+        }else if(p1.charge == 0 && p2.charge == 1){
+            p1.goTo(vx, vy);
+            p2.goTo(vx, vy);
+        }else if(p1.charge == 0 && p2.charge == -1){
+            p2.goTo(-vx, -vy);
+        }else if(p1.charge == 1 && p2.charge == 1){
+            p1.goTo(-vx, -vy);
+            p2.goTo(-vx, -vy);
+        }else if(p1.charge == 1 && p2.charge == -1){
+            p1.goTo(vx, vy);
+            p2.goTo(vx, vy);
+        }else if(p1.charge == -1 && p2.charge == -1){
+            p1.goTo(-vx, -vy);
+            p2.goTo(-vx, -vy);
+        }
+    }
+
+    public static void repulseParticlesIfCollisioning(Particle p1, Particle p2) {
+        if(p1.x == p2.x){
+            p2.goTo(getRandCharge(), getRandCharge());
+        }
+        if(p1.y == p2.y){
+            p2.goTo(getRandCharge(), getRandCharge());
+        }
     }
 
     public static void renderMap(JFrame canvas){
@@ -122,15 +137,14 @@ public class Main {
         while(true){
             //Thread.sleep(100);
             renderMap(frame);
-            gravity();
-
+            handleParticlesForces();
         }
     }
 }
 
 class Particle{
-    int x = 0;
-    int y = 0;
+    int x;
+    int y;
 
     int charge = -1;
 
