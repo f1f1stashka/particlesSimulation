@@ -3,14 +3,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-import static java.lang.Math.atan;
-import static java.lang.Math.pow;
-import static java.lang.Math.sin;
-import static java.lang.Math.cos;
-import static java.lang.Math.abs;
-import static java.lang.Math.asin;
-import static java.lang.Math.atan2;
-import static java.lang.Math.toRadians;
+import static java.lang.Math.*;
 
 public class Main {
     public static int _size = 800;
