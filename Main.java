@@ -9,6 +9,7 @@ import static java.lang.Math.sin;
 import static java.lang.Math.cos;
 import static java.lang.Math.abs;
 import static java.lang.Math.asin;
+import static java.lang.Math.atan2;
 
 public class Main {
     public static int _size = 800;
@@ -70,22 +71,22 @@ public class Main {
         int vy
     ){
         if(p1.charge == 0 && p2.charge == 0){
-            p1.goTo(vx, vy);
-            p2.goTo(vx, vy);
+            p1.goTo();
+            p2.goTo();
         }else if(p1.charge == 0 && p2.charge == 1){
-            p1.goTo(vx, vy);
-            p2.goTo(vx, vy);
+            p1.goTo();
+            p2.goTo();
         }else if(p1.charge == 0 && p2.charge == -1){
-            p2.goTo(-vx, -vy);
+            p2.goTo();
         }else if(p1.charge == 1 && p2.charge == 1){
-            p1.goTo(-vx, -vy);
-            p2.goTo(-vx, -vy);
+            p1.goTo();
+            p2.goTo();
         }else if(p1.charge == 1 && p2.charge == -1){
-            p1.goTo(vx, vy);
-            p2.goTo(vx, vy);
+            p1.goTo();
+            p2.goTo();
         }else if(p1.charge == -1 && p2.charge == -1){
-            p1.goTo(-vx, -vy);
-            p2.goTo(-vx, -vy);
+            p1.goTo();
+            p2.goTo();
         }
     }
 
@@ -179,8 +180,8 @@ class Particle{
     }
 
     void goTo(){
-        x += cos(toRadians(this.vector.angle))*5;
-        y += sin(toRadians(this.vector.angle))*5;
+        x += sin(toRadians(this.vector.angle))*this.vector.value;
+        y += cos(toRadians(this.vector.angle))*this.vector.value;
     }
 }
 
