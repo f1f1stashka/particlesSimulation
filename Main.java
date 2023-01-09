@@ -10,6 +10,7 @@ import static java.lang.Math.cos;
 import static java.lang.Math.abs;
 import static java.lang.Math.asin;
 import static java.lang.Math.atan2;
+import static java.lang.Math.toRadians;
 
 public class Main {
     public static int _size = 800;
